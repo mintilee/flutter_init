@@ -1,16 +1,26 @@
-# offline
+# flutter-init
 
-A new Flutter project.
+- 基本可以满足日常的开发需求
 
-## Getting Started
+# 使用到的插件在.yaml 里面有说明
 
-This project is a starting point for a Flutter application.
+特别说明：
 
-A few resources to get you started if this is your first Flutter project:
+- 1、使用了字体图标
+- 2、使用了 svg
+- 3、数据存储使用的是 hive
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+
+
+## 目前完成的有
+
+- [x] http接口请求的封装
+- [x] hive的基础已完成
+- [ ] ~~登录页面~~ 样式需要调整
+- [x] 启动图
+- [x] noticeBar的封装
+- [x] swiper的封装
+- [x] input输入框的封装
+- [ ] 其他
