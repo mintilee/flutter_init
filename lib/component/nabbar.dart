@@ -103,13 +103,15 @@ class _NavbarState extends State<Navbar> {
     return SizedBox(
       width: width ?? (16 + 16).w,
       height: kToolbarHeight,
-      child: Align(alignment: Alignment(close ? 1 : -0.3, 0.1), child: close ? Icon(FoIcon.CLOSE, size: 20) : Icon(FoIcon.ARROW_LEFT_BACK, size: 20)
-          // ? CustomIcon(name: CustomIcons.close, color: Colors.black)
-          // : CustomIcon(
-          //     name: CustomIcons.back,
-          //     color: white ? Colors.white : Colors.black,
-          //   ),
-          ),
+      child: Align(
+          alignment: Alignment(close ? 1 : -0.3, 0.1),
+          child: close
+              ? const Icon(FoIcon.CLOSE, size: 20)
+              : Icon(
+                  FoIcon.ARROW_LEFT_BACK,
+                  size: 20,
+                  color: white ? Colors.white : Colors.black,
+                )),
     );
   }
 }

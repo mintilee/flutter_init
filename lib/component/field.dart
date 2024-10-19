@@ -120,13 +120,13 @@ class _FieldsState extends State<Fields> {
 
     focusNodeFocus.addListener(() {
       if (focusNodeFocus.value) {
-        print({"debug===========> 121"});
+        print({"debug==============> 121"});
         setState(() {
           clearableStatus = widget.clearable ?? false;
         });
         widget.onFocus?.call();
       } else {
-        print({"debug===========> 124"});
+        print({"debug==========> 124"});
         setState(() {
           clearableStatus = false;
         });
@@ -205,6 +205,9 @@ class _FieldsState extends State<Fields> {
                 fontSize: 15.sp,
                 color: Colors.black,
               ),
+              onChanged: (val) {
+                widget.onChange!(val);
+              },
               onSubmitted: (val) {
                 widget.onChange!(val);
               },

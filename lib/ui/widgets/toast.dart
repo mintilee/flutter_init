@@ -2,29 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class ToastUtils {
-  static FToast? _fToast;
+  static final ToastUtils _instance = ToastUtils._internal();
 
+  factory ToastUtils() {
+    return _instance;
+  }
+
+  ToastUtils._internal();
+
+  late FToast fToast;
   // 初始化FToast实例
-  static void init(BuildContext context) {
-    _fToast = FToast();
-    _fToast!.init(context);
+  void init(BuildContext context) {
+    fToast = FToast();
+    fToast.init(context);
   }
 
   // 显示Toast消息
-  static void showToast({
+  void showToast({
     required String message,
     ToastGravity gravity = ToastGravity.BOTTOM,
     Color backgroundColor = Colors.black,
     Color textColor = Colors.white,
-    double fontSize = 16.0,
+    double fontSize = 12.0,
     int durationInSeconds = 2,
   }) {
-    if (_fToast == null) {
+    if (fToast == null) {
       throw Exception("ToastUtils not initialized. Call ToastUtils.init(context) first.");
     }
 
     Widget toast = Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 9.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0),
         color: backgroundColor,
@@ -35,7 +42,7 @@ class ToastUtils {
       ),
     );
 
-    _fToast!.showToast(
+    fToast.showToast(
       child: toast,
       gravity: gravity,
       toastDuration: Duration(seconds: durationInSeconds),
@@ -43,7 +50,7 @@ class ToastUtils {
   }
 
   // 取消所有显示的Toast
-  static void cancelAllToasts() {
-    _fToast?.removeQueuedCustomToasts();
+  void cancelAllToasts() {
+    fToast.removeQueuedCustomToasts();
   }
 }

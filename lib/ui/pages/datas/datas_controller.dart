@@ -8,4 +8,11 @@ class DatasController extends GetxController {
   ];
 
   final terminalCurrent = RxInt(0);
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    print("==========datas=======数据=====oninit");
+    super.onInit();
+  }
 }

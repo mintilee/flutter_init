@@ -29,7 +29,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin {
-  HomeController ctrl = Get.find<HomeController>();
+  HomeController controller = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -112,8 +112,8 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
               builder: (_) {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: List.generate(ctrl.homeModel.value!.topMenu.length, (index) {
-                    TopMenuModel topMenuItem = ctrl.homeModel.value!.topMenu[index];
+                  children: List.generate(controller.homeModel.value!.topMenu.length, (index) {
+                    TopMenuModel topMenuItem = controller.homeModel.value!.topMenu[index];
                     return Container(
                       width: 60.w,
                       child: CustomButton(

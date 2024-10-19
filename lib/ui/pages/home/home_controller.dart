@@ -1,14 +1,23 @@
 import 'package:get/get.dart';
+import 'package:offline/models/app_user_home.dart';
+import 'package:offline/store/home.dart';
 import 'package:offline/ui/pages/home/home_models.dart';
 
 class HomeController extends GetxController {
   var homeModel = Rx<HomeModel?>(null);
 
+  AppUserHome? homeData;
+
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    print({"debug=====初始化=======10===home"});
     fetchHome();
+    await AppHomeStore.init();
+    print({"debug=====初始化=======10===home"});
+
+    AppHomeStore().getHomeData().then((value) {
+      homeData = value;
+    });
   }
 
   // 初始化models里面的数据

@@ -7,6 +7,11 @@ import 'package:offline/models/app_info.dart';
 
 import 'package:package_info_plus/package_info_plus.dart';
 
+class AppConfig {
+  static const String BASE_URL = "http://192.168.1.51:1027";
+  static const int NETWORKID = 2;
+}
+
 class AppStore {
   static const String appInfoStore = "appInfo";
   final Box<AppInfo> box = Hive.box<AppInfo>(appInfoStore);

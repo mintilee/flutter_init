@@ -19,7 +19,7 @@ class AuthInterceptor extends Interceptor {
 
     final AppInfo? appinfo = await AppStore().getAppInfo();
 
-    // Log.e("有没有过来${accessToken}");
+    Log.e("有没有过来${accessToken}");
     if (accessToken!.isNotEmpty) {
       options.headers['token'] = accessToken;
     }
@@ -36,6 +36,9 @@ class AuthInterceptor extends Interceptor {
         : Platform.isIOS
             ? 2
             : 1;
+
+    // 网络地址
+    options.headers['netWorkID'] = AppConfig.NETWORKID;
 
     super.onRequest(options, handler);
   }

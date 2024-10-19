@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,13 +10,14 @@ import 'package:offline/component/nabbar.dart';
 import 'package:offline/component/text.dart';
 import 'package:offline/res/theme.dart';
 import 'package:offline/ui/pages/mine/mine_controller.dart';
+import 'package:offline/ui/pages/setting/setting_screen.dart';
 import 'package:offline/ui/widgets/layout.dart';
 import 'package:offline/ui/widgets/toast.dart';
 
-class MineScreenBinding implements Bindings {
+class MineScreenBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put<MineController>(MineController());
+    Get.lazyPut<MineController>(() => MineController());
   }
 }
 
@@ -30,7 +29,7 @@ class MineScreen extends StatefulWidget {
 }
 
 class _MineScreenState extends State<MineScreen> with AutomaticKeepAliveClientMixin {
-  MineController ctrl = MineController();
+  MineController controller = Get.find<MineController>();
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +58,12 @@ class _MineScreenState extends State<MineScreen> with AutomaticKeepAliveClientMi
                   children: [
                     const Icon(FoIcon.ROLE_CHANGE, color: Colors.white),
                     gw(15),
-                    const Icon(FoIcon.SET, color: Colors.white),
+                    CustomButton(
+                      onPressed: () {
+                        Get.to(SettingScreen(), binding: SettingScreenBinding());
+                      },
+                      child: const Icon(FoIcon.SET, color: Colors.white),
+                    )
                   ],
                 ),
               ),
@@ -138,7 +142,9 @@ class _MineScreenState extends State<MineScreen> with AutomaticKeepAliveClientMi
                   children: [
                     Row(
                       children: [
-                        customText("张三", 22, Colors.white),
+                        // customText("张三", 22, Colors.white),
+                        customText("${controller.homeData?.u_Name ?? '张三'}", 22, Colors.white),
+
                         gw(10),
                         Container(
                           height: 20.h,
@@ -295,7 +301,7 @@ class _MineScreenState extends State<MineScreen> with AutomaticKeepAliveClientMi
             title: '收益明细',
             color: AppColor.blueColor1,
             onPressed: () {
-              ToastUtils.showToast(
+              ToastUtils().showToast(
                 message: "Hello, this is a custom toast!",
               );
             },
@@ -327,8 +333,8 @@ class _MineScreenState extends State<MineScreen> with AutomaticKeepAliveClientMi
             child: Wrap(
               spacing: 10,
               runSpacing: 10,
-              children: List.generate(ctrl.baseServiceData.length ?? 0, (index) {
-                Map baseServiceItem = ctrl.baseServiceData[index] ?? {};
+              children: List.generate(controller.baseServiceData.length ?? 0, (index) {
+                Map baseServiceItem = controller.baseServiceData[index] ?? {};
                 return CustomButton(
                   onPressed: () {},
                   child: Container(

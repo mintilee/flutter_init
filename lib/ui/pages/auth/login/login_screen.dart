@@ -20,7 +20,7 @@ class LoginScreenBinging implements Bindings {
 }
 
 class LoginScreen extends GetView<LoginScreenController> {
-  LoginScreen({super.key});
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,96 +33,94 @@ class LoginScreen extends GetView<LoginScreenController> {
       ),
       child: Scaffold(
           backgroundColor: Colors.transparent,
+          resizeToAvoidBottomInset: false,
           body: SafeArea(
-              child: Stack(
-            children: [
-              Align(
-                alignment: Alignment.topRight,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15.w),
-                  child: CustomButton(
-                    onPressed: () {},
-                    child: Column(
-                      children: [
-                        const Icon(
-                          FoIcon.ROLE_CHANGE,
+              child: GetBuilder<LoginScreenController>(
+            init: controller,
+            builder: (_) {
+              return Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 15.w),
+                      child: CustomButton(
+                        onPressed: () {},
+                        child: Column(
+                          children: [
+                            const Icon(
+                              FoIcon.ROLE_CHANGE,
+                            ),
+                            customText('切换商户端', 12, AppColor.blackText2),
+                          ],
                         ),
-                        customText('切换商户端', 12, AppColor.blackText2),
+                      ),
+                    ),
+                  ),
+                  Positioned.fill(
+                    top: kToolbarHeight,
+                    bottom: bottomBarHeight(context) + 30.h,
+                    left: 15.w,
+                    right: 15.w,
+                    child: SizedBox(
+                      width: 345.w,
+                      child: Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: customText('欢迎来到通用版', 24, AppColor.blackText, isBold: true),
+                          ),
+                          gh(120),
+                          Column(
+                            children: [
+                              changeLoginStatusView(),
+                              gh(30),
+                              Visibility(visible: controller.flag.value, child: passwordLogin()),
+                              Visibility(visible: !controller.flag.value, child: smsLogin()),
+                              AgreeLoginView(),
+                              SubmitButton(
+                                title: "登录",
+                                color: AppColor.theme,
+                                onPressed: () {
+                                  controller.toLogin();
+                                },
+                              ),
+                              gh(30),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: CustomButton(
+                                  onPressed: () {},
+                                  child: customText('忘记密码', 14, AppColor.theme),
+                                ),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 30.h,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CustomButton(
+                          onPressed: () {},
+                          child: Row(
+                            children: [
+                              customText('立即注册', 16, AppColor.blackText),
+                              const Icon(FoIcon.ARROW_RIGHT, size: 12),
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   ),
-                ),
-              ),
-              Positioned.fill(
-                top: kToolbarHeight,
-                bottom: bottomBarHeight(context) + 30.h,
-                left: 15.w,
-                right: 15.w,
-                child: SizedBox(
-                  width: 345.w,
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: customText('欢迎来到通用版', 24, AppColor.blackText, isBold: true),
-                      ),
-                      gh(120),
-                      Column(
-                        children: [
-                          changeLoginStatusView(),
-                          gh(30),
-                          GetBuilder<LoginScreenController>(
-                            builder: (_) {
-                              return Visibility(visible: controller.flag.value, child: passwordLogin());
-                            },
-                          ),
-                          GetBuilder<LoginScreenController>(
-                            builder: (_) {
-                              return Visibility(visible: !controller.flag.value, child: smsLogin());
-                            },
-                          ),
-                          AgreeLoginView(),
-                          SubmitButton(
-                            title: "登录",
-                            color: AppColor.theme,
-                            onPressed: () {
-                              controller.toLogin();
-                            },
-                          ),
-                          gh(30),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: CustomButton(
-                              onPressed: () {},
-                              child: customText('忘记密码', 14, AppColor.theme),
-                            ),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 30.h,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CustomButton(
-                      onPressed: () {},
-                      child: Row(
-                        children: [
-                          customText('立即注册', 16, AppColor.blackText),
-                          const Icon(FoIcon.ARROW_RIGHT, size: 12),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ],
+                ],
+              );
+            },
           ))),
     );
   }
@@ -134,15 +132,16 @@ class LoginScreen extends GetView<LoginScreenController> {
         Size size = calculateTextHeight("密码登陆", 18, FontWeight.bold, double.infinity, 1, Global.navigatorKey.currentContext!, texeHeight: 1.25.sp);
         return GetBuilder<LoginScreenController>(
           builder: (_) {
-            bool flag = controller.loginModel.value!.loginMethod == index ? true : false;
+            bool flag = controller.loginModel.loginMethod == index ? true : false;
+
             return Expanded(
                 child: SizedBox(
               width: size.width.w,
               height: size.height.h,
               child: CustomButton(
                 onPressed: () {
-                  controller.loginModel.value!.loginMethod = index;
-                  controller.flag.value = controller.loginModel.value!.loginMethod == 0 ? true : false;
+                  controller.loginModel.loginMethod = index;
+                  controller.flag.value = controller.loginModel.loginMethod == 0 ? true : false;
                   controller.update();
                 },
                 child: Stack(
@@ -184,7 +183,6 @@ class LoginScreen extends GetView<LoginScreenController> {
               return CustomButton(
                 onPressed: () {
                   controller.selectAgreeStatus.value = !controller.selectAgreeStatus.value;
-                  controller.update();
                 },
                 child: controller.selectAgreeStatus.value
                     ? const Icon(
@@ -231,10 +229,12 @@ class LoginScreen extends GetView<LoginScreenController> {
             borderRadius: BorderRadius.circular(8.w),
           ),
           child: Fields(
-            type: TextInputType.text,
+            type: TextInputType.number,
             placeholder: "请输入账号",
+            value: controller.loginModel.account,
+            maxLength: 11,
             onChange: (val) {
-              controller.loginModel.value!.account = val;
+              controller.loginModel.account = val;
             },
           ),
         ),
@@ -250,22 +250,21 @@ class LoginScreen extends GetView<LoginScreenController> {
           child: Fields(
             type: TextInputType.visiblePassword,
             placeholder: "请输入密码",
-            value: controller.loginModel.value!.password,
+            value: controller.loginModel.password,
             onChange: (val) {
-              controller.loginModel.value!.password = val;
+              controller.loginModel.password = val;
             },
             rightIcon: CustomButton(
               onPressed: () {
-                controller.loginModel.value!.isShow = !controller.loginModel.value!.isShow;
-                controller.update();
+                controller.loginModel.isShow = !controller.loginModel.isShow;
               },
-              child: GetX<LoginScreenController>(
+              child: GetBuilder<LoginScreenController>(
                 builder: (_) {
-                  return controller.loginModel.value!.isShow ? Icon(FoIcon.CLOSE_EYE) : Icon(FoIcon.OPEN_EYE);
+                  return controller.loginModel.isShow ? Icon(FoIcon.CLOSE_EYE) : Icon(FoIcon.OPEN_EYE);
                 },
               ),
             ),
-            passwordHidden: controller.loginModel.value!.isShow,
+            passwordHidden: controller.loginModel.isShow,
           ),
         ),
       ],
@@ -288,9 +287,10 @@ class LoginScreen extends GetView<LoginScreenController> {
             maxLength: 11,
             type: TextInputType.phone,
             placeholder: "请输入手机号",
+            value: controller.loginModel.phone,
             onChange: (val) {
-              controller.loginModel.value!.phone = val;
-              print({"${controller.loginModel.value!.phone}======1000"});
+              print("=============$val============301=======");
+              controller.loginModel.phone = val;
             },
           ),
         ),
@@ -306,9 +306,10 @@ class LoginScreen extends GetView<LoginScreenController> {
           child: Fields(
             type: TextInputType.number,
             placeholder: "请输入验证码",
-            value: "",
+            value: controller.loginModel.smsCode,
             onChange: (val) {
-              controller.loginModel.value!.smsCode = val;
+              print("=============$val============319=======");
+              controller.loginModel.smsCode = val;
             },
             rightIcon: CustomButton(
               onPressed: () {},

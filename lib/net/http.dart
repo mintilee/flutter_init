@@ -2,7 +2,10 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:offline/main.dart';
 import 'package:offline/res/constant.dart';
+import 'package:offline/ui/widgets/toast.dart';
 import 'package:offline/utils/log_utils.dart';
 
 import 'base_entity.dart';
@@ -137,6 +140,7 @@ class DioUtils {
         onSuccess?.call(result.data);
       } else {
         _onError(result.code, result.message, onError, false);
+        ToastUtils().showToast(message: result.message);
       }
     }, onError: (dynamic e) {
       _cancelLogPrint(e, url);

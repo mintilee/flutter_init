@@ -11,10 +11,10 @@ import 'package:offline/res/theme.dart';
 import 'package:offline/ui/pages/datas/datas_controller.dart';
 import 'package:offline/ui/widgets/layout.dart';
 
-class DatasScreenBinding implements Bindings {
+class DatasScreenBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put<DatasController>(DatasController());
+    Get.lazyPut<DatasController>(() => DatasController());
   }
 }
 
@@ -26,7 +26,7 @@ class DatasScreen extends StatefulWidget {
 }
 
 class _DatasScreenState extends State<DatasScreen> with AutomaticKeepAliveClientMixin {
-  DatasController ctrl = DatasController();
+  DatasController ctrl = Get.find<DatasController>();
 
   @override
   bool get wantKeepAlive => true;

@@ -21,8 +21,6 @@ class BaseEntity<T> {
     if (json == null) {
       return null;
     }
-
-    print({"debug=============25": T.toString()});
     if (T.toString() == 'String') {
       return json.toString() as T;
     } else if (T.toString() == 'Map<dynamic, dynamic>') {

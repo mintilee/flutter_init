@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:offline/component/button.dart';
+import 'package:offline/component/text.dart';
 import 'package:offline/res/theme.dart';
 
 /// 布局相关的
@@ -87,4 +89,100 @@ String filterText(String text) {
     text = text.replaceAll(tag, '\n\n');
   }
   return text;
+}
+
+// body+底部定位 区域
+
+Widget submitBody(BuildContext context, String title,
+    {Function()? onPressed, List<Widget>? children, Widget? bottomChild, double? marginTop, double? fromTop, Color? contentColor, double? buttonHeight, Color? bottomColor, DecoratedBox? bottomDecoratedBox, Widget Function(double boxHeight, BuildContext context)? build}) {
+  return Builder(
+    builder: (context) {
+      return SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            gh(marginTop ?? 0),
+            realityBody(context, children: children, buttonHeight: buttonHeight, marginTop: marginTop, contentColor: contentColor, fromTop: fromTop, build: build),
+            bottomChild ?? bottomThemeSubmit(context, title, onPressed: onPressed, color: bottomColor),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+Widget realityBody(BuildContext context, {List<Widget>? children, double? marginTop, double? fromTop, Color? contentColor, double? buttonHeight, Widget Function(double boxHeight, BuildContext context)? build}) {
+  double screenHeight = ScreenUtil().screenHeight;
+  double appBarMaxHeight = Scaffold.of(context).appBarMaxHeight ?? 0;
+  double bottomHeight = buttonHeight ?? (80.h + bottomBarHeight(context));
+  double paddingBottom = 0;
+  double topMargin = marginTop != null ? marginTop.h : 0;
+  double topSpacing = fromTop != null ? fromTop.h : 0;
+  double boxHeight = screenHeight - appBarMaxHeight - bottomHeight - paddingBottom - topMargin - topSpacing;
+
+  return Container(
+    width: 375.w,
+    height: boxHeight,
+    color: contentColor ?? AppColor.scaffoldBG,
+    child: children != null
+        ? SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              children: children,
+            ),
+          )
+        : build != null
+            ? build(boxHeight, context)
+            : Container(),
+  );
+}
+
+Widget bottomThemeSubmit(BuildContext context, String title, {Function()? onPressed, bool enalble = true, Color? color}) {
+  return Container(
+    width: 375.w,
+    height: 80.h + bottomBarHeight(context),
+    color: Colors.white,
+    padding: EdgeInsets.only(bottom: bottomBarHeight(context)),
+    child: Center(
+      child: submitButton(title, onPressed ?? () {}, enable: enalble, color: color),
+    ),
+  );
+}
+
+Widget submitButton(
+  String? title,
+  Function() onPressed, {
+  bool enable = true,
+  double? width,
+  double? height,
+  Color? color,
+  Color? textColor,
+  double? fontSize,
+  LinearGradient? linearGradient,
+  bool isBold = false,
+  double? radius,
+}) {
+  return CustomButton(
+    onPressed: enable ? onPressed : null,
+    child: Opacity(
+      opacity: enable ? 1.0 : 0.5,
+      child: Container(
+        width: width != null ? width.w : 345.w,
+        height: height != null ? height.h : 50.h,
+        decoration: BoxDecoration(
+          gradient: color != null
+              ? null
+              : LinearGradient(colors: [
+                  AppColor.theme,
+                  AppColor.theme.withOpacity(0.5),
+                ], begin: Alignment.centerLeft, end: Alignment.centerRight),
+          color: color,
+          borderRadius: BorderRadius.circular(radius != null ? radius.w : 25.w),
+        ),
+        child: Center(
+          child: customText(title ?? "", fontSize ?? 15, textColor ?? Colors.white, isBold: isBold),
+        ),
+      ),
+    ),
+  );
 }
