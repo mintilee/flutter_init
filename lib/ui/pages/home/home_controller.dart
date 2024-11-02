@@ -17,6 +17,7 @@ class HomeController extends GetxController {
 
     AppHomeStore().getHomeData().then((value) {
       homeData = value;
+      update();
     });
   }
 

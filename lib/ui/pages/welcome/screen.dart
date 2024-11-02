@@ -36,7 +36,8 @@ class WelcomeScreen extends GetView<WelcomeController> {
               offstage: false,
               child: InkWell(
                 onTap: () async {
-                  Get.offAndToNamed(AppRoutes.login);
+                  controller.getPublicInfoApi(isReflesh: true);
+                  await Get.offAndToNamed(AppRoutes.login);
                 },
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 8.w),

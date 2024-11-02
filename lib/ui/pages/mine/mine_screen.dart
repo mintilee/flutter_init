@@ -118,80 +118,83 @@ class _MineScreenState extends State<MineScreen> with AutomaticKeepAliveClientMi
       width: 375.w,
       child: Column(
         children: [
-          SizedBox(
-            width: 375.w - 15.w * 2,
-            child: Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(60.w / 2),
-                  child: Container(
-                    width: 60.w,
-                    height: 60.h,
-                    color: Colors.white,
-                    child: Image.asset(
-                      assetsName('mine/avatar'),
-                      width: 56.w,
-                      height: 56.h,
-                      fit: BoxFit.none,
-                    ),
-                  ),
-                ),
-                gw(10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          GetBuilder<MineController>(
+            builder: (_) {
+              return SizedBox(
+                width: 375.w - 15.w * 2,
+                child: Row(
                   children: [
-                    Row(
-                      children: [
-                        // customText("张三", 22, Colors.white),
-                        customText("${controller.homeData?.u_Name ?? '张三'}", 22, Colors.white),
-
-                        gw(10),
-                        Container(
-                          height: 20.h,
-                          child: Stack(
-                            children: [
-                              Align(
-                                alignment: Alignment.center,
-                                child: Container(
-                                  height: 15.h,
-                                  margin: EdgeInsets.only(left: 10.w),
-                                  padding: EdgeInsets.only(left: 15.w, right: 5.w),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFFFC85B),
-                                    borderRadius: BorderRadius.circular(15.w / 2),
-                                  ),
-                                  child: customText("运营中心", 10, Colors.white),
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment.center,
-                                child: SizedBox(
-                                  width: 20.w,
-                                  height: 20.h,
-                                  child: SvgPicture.asset(assetsSvgName("level")),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                    CustomButton(
-                      onPressed: () {
-                        Clipboard.setData(const ClipboardData(text: "12345678"));
-                      },
-                      child: Row(
-                        children: [
-                          customText("推荐码：12345678", 12, Colors.white),
-                          gw(5),
-                          const Icon(FoIcon.COPYANDPASTE, size: 12, color: Colors.white),
-                        ],
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(60.w / 2),
+                      child: Container(
+                        width: 60.w,
+                        height: 60.h,
+                        color: Colors.white,
+                        child: Image.asset(
+                          assetsName('mine/avatar'),
+                          width: 56.w,
+                          height: 56.h,
+                          fit: BoxFit.none,
+                        ),
                       ),
                     ),
+                    gw(10),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            // sp_Name u_Name
+                            customText("${controller.homeData?.sp_Name ?? '未设置昵称'}", 22, Colors.white),
+                            gw(10),
+                            Container(
+                              height: 20.h,
+                              child: Stack(
+                                children: [
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: Container(
+                                      height: 15.h,
+                                      margin: EdgeInsets.only(left: 10.w),
+                                      padding: EdgeInsets.only(left: 15.w, right: 5.w),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFFFFC85B),
+                                        borderRadius: BorderRadius.circular(15.w / 2),
+                                      ),
+                                      child: customText("运营中心", 10, Colors.white),
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: SizedBox(
+                                      width: 20.w,
+                                      height: 20.h,
+                                      child: SvgPicture.asset(assetsSvgName("level")),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                        CustomButton(
+                          onPressed: () {
+                            Clipboard.setData(ClipboardData(text: "${controller.homeData?.u_Number}"));
+                          },
+                          child: Row(
+                            children: [
+                              customText("推荐码：${controller.homeData?.u_Number}", 12, Colors.white),
+                              gw(5),
+                              const Icon(FoIcon.COPYANDPASTE, size: 12, color: Colors.white),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
                   ],
-                )
-              ],
-            ),
+                ),
+              );
+            },
           )
         ],
       ),

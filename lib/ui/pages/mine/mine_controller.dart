@@ -21,6 +21,7 @@ class MineController extends GetxController {
     await AppHomeStore.init();
     AppHomeStore().getHomeData().then((value) {
       homeData = value;
+      update();
     });
   }
 
@@ -31,14 +32,15 @@ class MineController extends GetxController {
 
   @override
   void onInit() async {
+    hiveHomeData();
     bus.on(USER_LOGIN_NOTIFY, onLoginNotify);
-    // hiveHomeData();
     super.onInit();
   }
 
   @override
   void onReady() {
     // TODO: implement onReady
+
     print("=====执行不执行====MINE===");
     super.onReady();
   }

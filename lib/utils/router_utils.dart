@@ -1,24 +1,24 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:offline/main.dart';
 
-// class RouterUtils {
-//   // 返回首页
-//   void popToUntil<T>({Widget? page, Bindings? binding, T? popTo, dynamic alignment, String? name}) {
-//     if (page != null && binding != null) {
-//       Get.offUntil(
-//           GetPageRoute(page: () => page, binding: binding, settings: RouteSettings(arguments: alignment, name: name)),
-//           (route) => route is GetPageRoute
-//               ? route.binding is MainPageBinding
-//                   ? true
-//                   : false
-//               : false);
-//     } else {
-//       Get.until((route) => route is GetPageRoute
-//           ? route.binding is MainPageBinding
-//               ? true
-//               : false
-//           : false);
-//     }
-//   }
-// }
+import 'package:offline/ui/pages/application/application_controller.dart';
+
+import 'package:offline/ui/pages/application/application_screen.dart';
+
+class RouterUtils {
+  // 回到主页面
+  void popToUntil({int? tabIndex = 0}) {
+    Get.until((route) {
+      if (route is GetPageRoute) {
+        if (route.binding is ApplicationBinding) {
+          ApplicationController ctrl = Get.find<ApplicationController>();
+          ctrl.tabbarIndex = tabIndex;
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    });
+  }
+}

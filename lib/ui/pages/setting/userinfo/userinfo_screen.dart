@@ -10,6 +10,7 @@ import 'package:offline/ui/pages/application/application_controller.dart';
 import 'package:offline/ui/pages/application/application_screen.dart';
 import 'package:offline/ui/pages/home/home_screen.dart';
 import 'package:offline/ui/pages/setting/userinfo/userinfo_controller.dart';
+import 'package:offline/utils/router_utils.dart';
 
 class UserinfoBinding implements Bindings {
   @override
@@ -29,22 +30,7 @@ class UserinfoScreen extends GetView<UserinfoController> {
         children: [
           CustomButton(
             onPressed: () {
-              Get.until((route) {
-                if (route is GetPageRoute) {
-                  if (route.binding is ApplicationBinding) {
-                    ApplicationController ctrl = Get.find<ApplicationController>();
-                    // 首页
-                    print("=======首页1=====${ctrl.tabbarIndex}==");
-                    ctrl.tabbarIndex = 0;
-                    print("=======首页====${ctrl.tabbarIndex}==");
-                    return true;
-                  } else {
-                    return false;
-                  }
-                } else {
-                  return false;
-                }
-              });
+              RouterUtils().popToUntil();
             },
             child: customText("回到首页", 18, AppColor.darkerText),
           )

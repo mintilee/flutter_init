@@ -66,6 +66,8 @@ dependencies:
   card_swiper: ^3.0.1
   # toast
   fluttertoast: ^8.2.5
+  # 跳转链接 
+  url_launcher: ^6.1.7
 
 dev_dependencies:
   flutter_test:
